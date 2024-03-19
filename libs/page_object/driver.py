@@ -8,7 +8,6 @@
 import time
 
 from appium import webdriver
-from appium.webdriver import WebElement
 from appium.webdriver.common.appiumby import AppiumBy
 from selenium.common.exceptions import TimeoutException, InvalidElementStateException
 from selenium.webdriver import ActionChains
@@ -20,17 +19,18 @@ from gstore import GSTORE
 import allure
 import os
 from loguru import logger as log
-
 from libs.page_object.element import Element
 
 
 class PageDriver:
     env = GSTORE['env']
+    log.warning(f'pagedriver={env}')
 
     def __init__(self, driver: WebDriver = None):
         self.driver = driver if driver is not None else GSTORE['driver']
         self.caps = self.driver.caps
         self.width, self.height = self.get_x_y()
+        self.package = self.caps['appPackage'] if self.env.lower() != 'ios' else self.caps['bundleId']
 
     def is_toast_exist(self, timeout=5, poll_frequency=0.1):
         """
@@ -47,7 +47,7 @@ class PageDriver:
 
     def get_toast_text(self, timeout=5, poll_frequency=0.1):
         """
-        定位toast元素，获取text属性
+        定位toast元素，获取text属性av
         """
 
         toast_loc = (AppiumBy.XPATH, '//*[@class="android.widget.Toast"]')
@@ -203,21 +203,13 @@ class PageDriver:
         log.info("关闭Driver")
         self.driver.quit()
 
-    def start_activity(self):
+    def active_app(self, appid=None):
         """
         启动app
         :return:
         """
-        if self.caps.get('appPackage'):
-            log.info(f'启动app-{self.caps["appPackage"]}')
-            os.system(f'adb shell am start -W -n {self.caps["appPackage"]}/{self.caps["appActivity"]}')
-            # self.driver.start_activity(self.caps['appPackage'], self.caps['appActivity'])
-        else:
-            #  appPackage: global.longbridge.android.debug
-            #  appActivity: global.longbridge.android.LaunchActivity
-            # self.driver.start_activity('global.longbridge.android.debug',
-            #                            'global.longbridge.android.LaunchActivity')
-            os.system(f'adb shell am start -W -n {self.caps["appPackage"]}/{self.caps["appActivity"]}')
+        _id = appid if appid is not None else self.package
+        self.driver.activate_app(_id)
         time.sleep(2)
 
     def close_app(self):
@@ -251,12 +243,12 @@ def init_driver(port: int, caps: dict) -> WebDriver:
     try:
         log.info(caps)
         options = UiAutomator2Options().load_capabilities(caps)
-        driver = webdriver.Remote(f'http://localhost:{port}/wd/hub', options = options)
+        driver = webdriver.Remote(f'http://localhost:{port}/wd/hub', options=options)
     except Exception as e:
         log.error(e)
         raise e
     driver.implicitly_wait(10)
     GSTORE['driver'] = driver
-    GSTORE['page_driver'] = PageDriver(driver)
+    page = PageDriver(driver)
+    GSTORE['page_driver'] = page
     return GSTORE['driver']
-

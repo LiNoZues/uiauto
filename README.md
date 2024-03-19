@@ -59,6 +59,10 @@ mac m1  :arch -arm64 pip install -r requirement.txt
 如果是列表元素 需要以list/group结尾
 
 
+# 获取ios app 包名
+ideviceinstaller -l
+
+
 
 # Appium 问题记录&修复
 Q:  An unknown server-side error occurred while processing the command. Original error: Could not proxy command to remote server. Original error: Error: Socket Hang up

@@ -13,7 +13,6 @@ class MainPage(BottomNavigation):
     主界面
     """
     if PageDriver.env != 'ios':
-        search_text = Element(describe='导航栏文本框',id_='search_text',timeout=6)
-        search_icon = Element(describe='导航栏icon', id_='search_icon')
+        search_text = Element(describe='导航栏文本框', id_='search_text', timeout=6)
     else:
-        pass
+        search_text = Element(describe='导航栏文本框', ios_predicate='name == "搜索栏"')

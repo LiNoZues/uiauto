@@ -28,7 +28,7 @@ LOCATOR_LIST = {
     'windows_uiautomation': AppiumBy.WINDOWS_UI_AUTOMATION,
     'accessibility_id': AppiumBy.ACCESSIBILITY_ID,
     'image': AppiumBy.IMAGE,
-    'custom': AppiumBy.CUSTOM,
+    'custom': AppiumBy.CUSTOM
     # uiautomator
 
 }
@@ -82,7 +82,7 @@ class Element:
     Returns an element object
     """
 
-    def __init__(self, retry: int = 2, timeout: int = 5, describe: str = "", index: int = None,
+    def __init__(self, retry: int = 1, timeout: int = 5, describe: str = "", index: int = None,
                  child: tuple = None, **kwargs):
         """
         :param is_set: 是否是元素集合 （如果有child字段，这里的is_set不生效，index有效-参考「__find_element」函数中的描述）
@@ -127,6 +127,10 @@ class Element:
                               poll_frequency=0.5).until(
             lambda d: d.find_elements(key, value)
         )
+        # elems = WebDriverWait(GSTORE['driver'] , timeout=self.timeout,
+        #                       poll_frequency=0.5).until(
+        #     lambda d: d.find_elements(key, value)
+        # )
         return elems
 
     @tip

@@ -3,8 +3,6 @@ from loguru import logger as log
 from libs.util_back.common import create_file, read_config
 from gstore import *
 
-# 3.10.2
-
 os.environ.setdefault('JAVA_HOME', '/Library/Java/JavaVirtualMachines/jdk1.8.0_321.jdk/Contents/home')
 os.environ.setdefault('ANDROID_HOME', '/Users/cz/Library/Android/sdk')
 
@@ -38,8 +36,10 @@ if __name__ == '__main__':
             caps = devices[run_id]
             # cmd = ['--cmdopt=0', '--caps={}'.format(caps), '-m', 'dev']  # 调试命令
             cmd = ['--cmdopt=0', '--caps={}'.format(caps)]
+            GSTORE['env'] = caps['env']
+            log.warning(GSTORE['env'])
             run(cmd)
-        case 1:  # 多进程
+        case 1:  # 多进程  # 暂时不能够支持 安卓/ios同时多进程
             # cmd = ['--cmdopt=1', '-n', '2']
             cmd = ['--cmdopt=1', '-n', '3', '-m', 'xdist_dev']
             run(cmd)
