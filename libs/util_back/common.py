@@ -96,5 +96,5 @@ def transition_code(code: str):
 
 if __name__ == '__main__':
     # quote_tag
-    rsp = get_pos_by_ocr('../../imgs/temp.png')
+    rsp = read_config()
     print(rsp)

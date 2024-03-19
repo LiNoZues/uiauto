@@ -5,12 +5,10 @@
 # email      ：
 # Description：
 """
-from libs.page_object.element import *
+from libs.page_object.element import Elements, Element
 from libs.page_object.driver import PageDriver
-from libs.util_back.exception import *
-from gstore import *
-from loguru import logger as log
 from libs.util_back.pytest_utils import *
+from libs.util_back.exception import *
 
 
 class BottomNavigation(PageDriver):

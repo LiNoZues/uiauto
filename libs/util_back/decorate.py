@@ -30,7 +30,7 @@ def back_to_main(package: str):
         except Exception:
             main_bus.page.press_keycode(AndroidKey.BACK)
             if main_bus.page.current_package != package or count > 8:
-                GSTORE['driver'].start_activity()
+                main_bus.page.active_app()
                 #app_init()
                 break
         else:
@@ -46,7 +46,7 @@ def recover_page(tab_name: str):
     log.error(traceback.format_exc())
     log.info('开始恢复初始状态')
     main_bus = MainPageBus()
-    package = main_bus.page.caps.get('appPackage', GSTORE['package_id'].replace('/',''))
+    package = main_bus.page.package
     if main_bus.page.current_package != package:
         GSTORE['driver'].start_activity()
         #app_init()

@@ -1,6 +1,6 @@
 way: 0 # 0 根据run_id 挑选设备 单发  1 根据 run_id 挑选设备分布式（先只支持两台）  2  run_id 并发
 common: # 公用
-  run_id: 0 # 执行的设备 根据devices下标来挑选。  数字 或者 列表 [0,2]
+  run_id: 2 # 执行的设备 根据devices下标来挑选。  数字 或者 列表 [0,2]
   rpc_url: http://127.0.0.1:8082/rpc
   account_open: !!str false
   phone_number: 88887541083
@@ -24,7 +24,7 @@ devices:
       resetKeyboard: true  # 重置输入法
       noReset: true
       platformVersion: !!str 10
-#      udid: 10.10.1.37:3455
+#      udid: 10.10.1.37:345
       udid: ff41f8c4
       newCommandTimeout: 120
       automationName: UiAutomator2
@@ -37,8 +37,8 @@ devices:
     desired_caps:
       platformName: Android
       deviceName: HUAWEI
-      appPackage: global.longbridge.android.debug
-      appActivity: global.longbridge.android.LaunchActivity
+      appPackage: tv.danmaku.bili
+      appActivity: .MainActivityV2
       unicodeKeyboard: true
       resetKeyboard: true
       noReset: true
@@ -46,3 +46,17 @@ devices:
       udid: 10.10.0.193:3499
       newCommandTimeout: 120
       automationName: UiAutomator2
+  - desc: Ipohone12Pm,appium启动服务端口号_4723
+    port: !!int 4723
+    env: ios  # android / ios 安卓/ios
+    desired_caps:
+      platformName: iOS
+      deviceName: Iphone12PM
+      bundleId: tv.danmaku.bilianime
+      unicodeKeyboard: true
+      resetKeyboard: true
+      noReset: true
+      platformVersion: !!str 17
+      udid: 00008101-00146CAA2246001E
+      newCommandTimeout: 120
+      automationName: XCUITest

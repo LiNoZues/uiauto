@@ -15,6 +15,7 @@ from libs.util_back.common import read_config
 from libs.util_back.logger import init_log
 from libs.demo_fixture.fix import *
 
+
 def pytest_addoption(parser):
     parser.addoption("--cmdopt", action="store", default='test', help="将命令行参数 ’--cmdopt' 添加到 pytest 配置中，传执行方式")
     parser.addoption("--caps", action="store", default='test', help="将命令行参数 ’--caps' 添加到 pytest 配置中，传设备参数")
@@ -29,8 +30,6 @@ def main_control(request, worker_id):
         case 0:
             log.info('单发')
             caps = eval(request.config.getoption('--caps'))
-            GSTORE['env'] = caps['env']
-
             # 启动 server
             # sv = ServiceManager(caps)
             # GSTORE['server'] = sv
@@ -51,7 +50,7 @@ def main_control(request, worker_id):
 
 
 @pytest.fixture()
-def enter_search()-> SearchPageBus:
+def enter_search() -> SearchPageBus:
     search_bus = main_enter_search_setup()
     yield search_bus
     main_enter_search_teardown(search_bus)
